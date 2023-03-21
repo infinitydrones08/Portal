@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flying</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+
+</head>
+<body>
+    <h1>Flying Details</h1>
+    <form action="/flying" method="POST">
+    <div>
+        Flight Id :
+        <input type="text" id="flight_id" name="flight_id" placeholder="Flight Id" required>
+        <div>
+            Pilot Id :
+            <input type="text" id="pilot_id" name="pilot_id" placeholder="Pilot Id" required>
+        </div>
+    </div>  
+    <div>
+        Flight Time :
+        <input type="time" id="duration" name="duration" placeholder="Duration" required>
+    </div>
+    <div>
+        Date :
+        <input type="date" id="date" name="date" placeholder="Date" required>
+    </div>
+    <div>
+        Mode :
+        <input type="text" id="mode" name="mode"
+        placeholder="Mode" required>
+    </div>
+    <div>
+        Type of drone :
+       <select name="droneslist" id="droneslist">
+        <option value="">Select Drones</option>
+        <% for(var count=0;count < drone_data.length;count++){
+            %>
+            <option value="<%= drone_data[count].droneslist %>"><%= drone_data[count].droneslist %></option>
+        <%  } %>
+
+       </select>
+       
+    </div>
+    <div>
+        Successful Flight?
+        <input type="submit" value="Yes">
+        <input type="submit" value="No">
+    </div>
+</form>
+</body>
+</html>

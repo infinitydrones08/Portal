@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+        <title>Sign Up Page</title>
+    </head>
+    <body>    
+        <center> <h1> Student Sign-Up Form </h1> </center>
+         
+        <form action="/signup" method="POST">  
+            <div class="container">   
+                <label>Username : </label>   
+                <input type="text" placeholder="Enter Username" name="name" required>
+                <label>Email Id : </label>   
+                <input type="email" placeholder="Enter Email Id" name="emailid" required>  
+                <label>Phone Number : </label>   
+                <input type="tel" placeholder="Enter Phonenumber" name="phone_number" required>
+                <label>Password : </label>   
+                <input type="password" placeholder="Enter Password" name="password" required> 
+                <label>Confirm password : </label>   
+                <input type="password" placeholder="Enter Password" name="cpassword" required>
+            
+                <button type="submit" onclick=checkpassword()>Signup</button>   
+            </div>   
+            <a href="/index/login">Already registered?Login </a>
+        </form>   
+        <script src="Controller\verify.js"></script>
+    </body>  
+</html>
