@@ -14,10 +14,11 @@ module.exports.datahere=async(req,res)=>{
 }
 module.exports.signup=async(req,res)=>{
     try {
+        
         console.log("hello");
         var{name,emailid,password,cpassword,phone_number}= req.body
         console.log(req.body)
-        var x=await pool.query("insert into users (name,emailid,password,cpassword,phone_number)values($1,$2,$3,$4,$5)",[name,emailid,password,cpassword,phone_number]);
+        var x=await pool.query("insert into signup (name,emailid,password,cpassword,phone_number)values($1,$2,$3,$4,$5)",[name,emailid,password,cpassword,phone_number]);
         console.log(x)
     }
     catch(err){
