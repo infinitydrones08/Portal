@@ -6,11 +6,25 @@ router.get('/',async(req,res)=>{
     console.log(z);
     res.render("signup")
 })
+
+// router.post('/signup',async(req,res)=>{
+//     const n=await controller.check(req,res);
+//         console.log(n)
+        
+//         res.render("signup")
+// });
+
+
+
 router.post('/signup',async(req,res)=>{
+    // const n=await controller.check(req,res);
+        
     const h=req.body;
         const y=await controller.signup(req,res);
         console.log(y);
-        res.render("signup")
+        
+        // res.render("signup")
+        res.setHeader('ejs','signup')
 });
 
 router.get('/flying',async(req,res)=>{
