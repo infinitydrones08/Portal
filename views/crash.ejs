@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+</head>
+<body>
+    <h1>Crash Details</h1>
+    <form action="/crash" method="POST"></form>
+    <div>
+        Drone Name
+        <input type="text" id="drone_name" name="drone_name" placeholder="Drone Name" required>
+    </div>
+    <div>
+        Pilot Id :
+            <input type="text" id="pilot_id" name="pilot_id" placeholder="Pilot Id" required>
+    </div>
+    <div>
+        Flight Id :
+        <input type="text" id="flight_id" name="flight_id" placeholder="Flight Id" required>
+    </div>
+    <div>
+        Damaged Parts:
+        <input type="text" id="damaged_parts" name="damaged_parts" placeholder="Damaged parts" required>
+    </div>
+    <div>
+        Reason:
+        <input type="text" id="reason" name="reason"
+        placeholder="Reason" required>
+    </div>
+</body>
+</html>

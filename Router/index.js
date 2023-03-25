@@ -44,6 +44,13 @@ router.post('/flying',async(req,res)=>{
     console.log(y);
     res.render("flying");
 })
+router.post('/crash',async(req,res)=>{
+    const p=req.body
+    console.log(p);
+    const t=await controller.crashdetails(req,res);
+    console.log(t)
+    res.render('crash');
+})
 
 
 

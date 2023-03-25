@@ -122,11 +122,23 @@ module.exports.flightdata=async(req,res)=>{
 
 module.exports.flying=async(req,res)=>{
     try{
+        const answer=req.body.answer;
+        if(answer==='yes'){
         console.log("let's fly");
         var{flight_id,pilot_id,duration,date,mode,drone_id}=req.body
         console.log(req.body)
         var y=await pool.query(`INSERT INTO flight_description (flight_id,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6)`,[flight_id,pilot_id,duration,date,mode,drone_id]);
         console.log(y);
+        }
+        else if(answer==='no'){
+            var n=await pool.query(`INSERT INTO flight_description (flight_id,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6)`,[flight_id,pilot_id,duration,date,mode,drone_id]);
+            console.log("Insertion Successful")
+        console.log(n);
+            res.render('crash');
+        }
+        else{
+            res.status(400).send("Invalid answer'")
+        }
     }
     catch(err){
         console.log(err)
@@ -143,4 +155,18 @@ module.exports.droneslistdata=async(req,res)=>{
         console.log(err)
     }
 
+}
+module.exports.crashdetails=async(req,res)=>{
+    try{
+        console.log("Crash Details Submission");
+        let {drone_name,pilot_id,flight_id,damaged_parts,reason}=req.body;
+        console.log({
+            drone_name,pilot_id,flight_id,damaged_parts,reason
+        })
+        pool.query('INSERT INTO crash (drone_name,pilot_id,flight_id,damaged_parts,reason)values($1,$2,$3,$4,$5)',[drone_name,pilot_id,flight_id,damaged_parts,reason]);
+        console.log("Submission Successful");
+    }
+    catch(err){
+        console.log(err)
+    }
 }
