@@ -33,6 +33,7 @@
 
 const { Pool } = require("pg");
 
+
 const config = "postgres://qfxwijux:sGtZVyXqp9PIG1EaLpZNdZX9qO1RceyE@mouse.db.elephantsql.com/qfxwijux";
 const pool = new Pool({ connectionString: config, ssl: { rejectUnauthorized: false } });
 module.exports = pool;

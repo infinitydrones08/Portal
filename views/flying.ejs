@@ -35,15 +35,11 @@
     </div>
     <div>
         Type of drone :
-       <select name="droneslist" id="droneslist">
-        <option value="">Select Drones</option>
-        <% for(var count=0;count < drone_data.length;count++){
-            %>
-            <option value="<%= drone_data[count].droneslist %>"><%= drone_data[count].droneslist %></option>
-        <%  } %>
-
-       </select>
-       
+       <select name="options" id="options"> 
+          <% options.forEach(option => { %>
+            <option value="<%= option %>"><%= option %></option>
+          <% }); %>
+        </select>
     </div>
     <div>
         Successful Flight?

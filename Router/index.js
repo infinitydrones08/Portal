@@ -1,5 +1,6 @@
 const express=require('express')
 const router=express.Router();
+const multer = require('multer');
 const controller=require("../Controller/controller");
 router.get('/',async(req,res)=>{
     const z=await controller.datahere(req,res);
@@ -15,6 +16,14 @@ router.get('/',async(req,res)=>{
 // });
 
 
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024 // limit file size to 5 MB
+    }
+  });
+
+
 
 router.post('/signup',async(req,res)=>{
     // const n=await controller.check(req,res);
@@ -27,13 +36,29 @@ router.post('/signup',async(req,res)=>{
         res.setHeader('ejs','signup')
 });
 
+router.post('/upload',upload.single('image'),(req,res,next)=>{
+    const x=await.controller.imageupload(req,res,next);
+    console.log(x);
+})
+
 router.get('/flying',async(req,res)=>{
-    const c=await controller.flightdata(req,res);
-    console.log(c);
-    // res.render("flying")
     const data=await controller.droneslistdata(req,res);
     console.log(data);
-    res.render("flying",{title:'Express',drone_data:data});
+    // res.render('flying',{options});
+    // const {t}=await pool.query("SELECT drone_name FROM  drones");
+    // console.log({t})
+    // // console.log(t)
+    // console.log("Hi")
+    // const options=t.map(row=>row.drone_name);
+    // console.log({options})
+    // res.render('flying',{ options: options})
+
+
+
+    const c=await controller.flightdata(req,res);
+    console.log(c);
+    res.render("flying")
+   
 })
 
 router.post('/flying',async(req,res)=>{

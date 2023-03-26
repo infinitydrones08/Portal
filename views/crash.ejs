@@ -31,5 +31,10 @@
         <input type="text" id="reason" name="reason"
         placeholder="Reason" required>
     </div>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <button type="submit">Upload</button>
+</form>
 </body>
 </html>

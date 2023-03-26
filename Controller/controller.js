@@ -1,5 +1,6 @@
 const express=require('express');
 const app=express();
+
 const pool=require("../database");
 module.exports.datahere=async(req,res)=>{
     try{
@@ -11,6 +12,16 @@ module.exports.datahere=async(req,res)=>{
         console.log(err)
     }
 
+}
+module.exports.imageupload=(req,res,next)=>{
+    const imageData=req.file.buffer;
+    const query={
+        text:'INSERT INTO crash (image_data) VALUES ($1) RETURNING id',
+        values:[imageData]
+    }
+    pool.query(query)
+    .then(result=>res.json({id:result.rows[0].id}))
+    .catch(err=>next(err));
 }
 
 module.exports.signup=async(req,res)=>{
@@ -146,10 +157,12 @@ module.exports.flying=async(req,res)=>{
 }
 module.exports.droneslistdata=async(req,res)=>{
     try{
-        const t=await pool.query("select drone_name from drones");
-        console.log(t)
+        const {rows}=await pool.query("SELECT drone_name FROM drones");
+        console.log({rows})
         console.log("Hi")
-        return t.rows;
+        const list=rows.map(row=>row.drone_name);
+        console.log(list)
+        res.render('flying',{options:list})
     }
     catch(err){
         console.log(err)
