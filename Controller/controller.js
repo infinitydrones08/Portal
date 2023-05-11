@@ -1,4 +1,5 @@
 const express=require('express');
+const jwt=require("jsonwebtoken");
 const app=express();
 
 const pool=require("../database");
@@ -118,6 +119,41 @@ module.exports.signup=async(req,res)=>{
 //         console.log(err);
 //     }
 // }
+
+module.exports.logincheck=async(req,res)=>{
+    try{
+        console.log("Checking Login Credentials");
+    let {emailid,password}=req.body;
+    console.log({
+        emailid,password
+    })
+    pool.query(`SELECT * FROM signup where emailid =$1 AND password =$2`,[emailid,password],(err,results)=>{
+        console.log(results.rows);
+        if(err){
+            throw err;
+        }
+        
+        else{
+            if(results.rows.length>0){
+                console.log("Successful");
+                const token=jwt.sign({emailid},'sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh',{expiresIn:'300s'});
+
+                res.json({token:token});
+                // res.redirect('/flying')
+            }
+            else{
+                console.log("Wrong Email password")
+                res.render('login')
+            }
+        }
+    })
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+}
+
 
 module.exports.flightdata=async(req,res)=>{
     try{

@@ -1,4 +1,6 @@
 const express=require('express')
+const jwt=require("jsonwebtoken");
+const app=express();
 const router=express.Router();
 const multer = require('multer');
 const controller=require("../Controller/controller");
@@ -69,6 +71,7 @@ router.post('/flying',async(req,res)=>{
     console.log(y);
     res.render("flying");
 })
+
 router.post('/crash',async(req,res)=>{
     const p=req.body
     console.log(p);
@@ -76,6 +79,36 @@ router.post('/crash',async(req,res)=>{
     console.log(t)
     res.render('crash');
 })
+router.get('/login',(req,res)=>{
+    res.render('login');
+})
+router.post('/login',async(req,res)=>{
+    const h=req.body;
+    const y=await controller.logincheck(req,res);
+    console.log(y);
+
+    
+})
+router.get('/protected',(req,res)=>{
+    const token=req.headers['authorization'];
+
+    if(!token)
+    {
+        res.status(401).send('No token provided');
+        return;
+    }
+    jwt.verify(req.token,'sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh',(err,decoded)=>{
+        if(err){
+            res.status(401).send('Invalid token');
+            return;
+        }
+        // If the token is valid, return a success message with the decoded token payload
+    res.send(`Hello, ${decoded.email}!`);
+    res.render('/flying')
+    console.log("Token done")
+    })
+})
+
 
 
 
