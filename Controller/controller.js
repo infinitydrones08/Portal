@@ -136,10 +136,12 @@ module.exports.logincheck=async(req,res)=>{
         else{
             if(results.rows.length>0){
                 console.log("Successful");
-                const token=jwt.sign({emailid},'sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh',{expiresIn:'300s'});
+                const token=jwt.sign({emailid},'sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh');
 
-                res.json({token:token});
-                // res.redirect('/flying')
+                // res.json({token:token});
+                console.log(token)
+                res.cookie('authcookie',token,{maxAge:900000,httpOnly:true})
+                res.redirect('/flying')
             }
             else{
                 console.log("Wrong Email password")

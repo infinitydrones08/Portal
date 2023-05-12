@@ -1,9 +1,14 @@
 const express=require('express')
 const jwt=require("jsonwebtoken");
-const app=express();
+// const app=express();
+const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
 const router=express.Router();
 const multer = require('multer');
 const controller=require("../Controller/controller");
+router.use(bodyParser.urlencoded({extended:true}))
+router.use(bodyParser.json())
+router.use(cookieParser())
 router.get('/',async(req,res)=>{
     const z=await controller.datahere(req,res);
     console.log(z);
@@ -89,25 +94,46 @@ router.post('/login',async(req,res)=>{
 
     
 })
-router.get('/protected',(req,res)=>{
-    const token=req.headers['authorization'];
+// router.get('/protected',(req,res)=>{
+//     const token=req.headers['authorization'];
 
-    if(!token)
-    {
-        res.status(401).send('No token provided');
-        return;
-    }
-    jwt.verify(req.token,'sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh',(err,decoded)=>{
-        if(err){
-            res.status(401).send('Invalid token');
-            return;
-        }
-        // If the token is valid, return a success message with the decoded token payload
-    res.send(`Hello, ${decoded.email}!`);
-    res.render('/flying')
-    console.log("Token done")
-    })
+//     if(!token)
+//     {
+//         res.status(401).send('No token provided');
+//         return;
+//     }
+//     jwt.verify(req.token,'sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh',(err,decoded)=>{
+//         if(err){
+//             res.status(401).send('Invalid token');
+//             return;
+//         }
+//         // If the token is valid, return a success message with the decoded token payload
+//     res.send(`Hello, ${decoded.email}!`);
+//     res.render('/flying')
+//     console.log("Token done")
+//     })
+// })
+router.get('/api',checkToken,(req,res)=>{
+    res.render('crash');
 })
+function checkToken(req,res,next){
+    //get authcookie from request
+
+    const authcookie=req.cookies.authcookie
+    console.log(authcookie)
+
+    //verify token which is in cookie value
+    jwt.verify(authcookie,"sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh",(err,data)=>{
+        if(err){
+            res.sendStatus(403)
+        }
+        else {
+           req.user=data;//Set the decoded data in the req.user object
+           next();
+            
+        }
+    })
+}
 
 
 
