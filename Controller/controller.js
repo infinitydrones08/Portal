@@ -140,7 +140,7 @@ module.exports.logincheck=async(req,res)=>{
 
                 // res.json({token:token});
                 console.log(token)
-                res.cookie('authcookie',token,{maxAge:900000,httpOnly:true})
+                res.cookie('authcookie',token,{maxAge:120000,httpOnly:true})
                 res.redirect('/flying')
             }
             else{
@@ -194,6 +194,17 @@ module.exports.flying=async(req,res)=>{
     }
 }
 module.exports.droneslistdata=async(req,res)=>{
+    
+    if(!req.cookies.authcookie)
+    {
+        return res.status(403).render('login', {message: 'Token Expired'});
+
+    }
+    else {
+        const authcookie=await jwt.verify(req.cookies.authcookie,'sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh')
+        console.log(authcookie)
+        if(authcookie.iat - new Date().getTime() < 60000){
+
     try{
         const {rows}=await pool.query("SELECT drone_name FROM drones");
         console.log({rows})
@@ -205,6 +216,12 @@ module.exports.droneslistdata=async(req,res)=>{
     catch(err){
         console.log(err)
     }
+    }
+    else
+    {
+        return res.send({code:404 ,message:'Token Expired'})
+    }
+}
 
 }
 module.exports.crashdetails=async(req,res)=>{

@@ -49,6 +49,7 @@ router.post('/upload',upload.single('image'),(req,res,next)=>{
 })
 
 router.get('/flying',async(req,res)=>{
+    
     const data=await controller.droneslistdata(req,res);
     console.log(data);
     // res.render('flying',{options});
@@ -114,6 +115,17 @@ router.post('/login',async(req,res)=>{
 //     })
 // })
 router.get('/api',checkToken,(req,res)=>{
+    // function auth(val,err)
+    // {
+    //     if(val)
+    //     {
+    //         res.render('crash')
+    //     }
+    //     else if(err)
+    //     {
+    //         res.render('/login')
+    //     }
+    // }
     res.render('crash');
 })
 function checkToken(req,res,next){
