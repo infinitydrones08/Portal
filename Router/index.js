@@ -43,9 +43,15 @@ router.post('/signup',async(req,res)=>{
         res.setHeader('ejs','signup')
 });
 
-router.post('/upload',upload.single('image'),(req,res,next)=>{
-    const x=await.controller.imageupload(req,res,next);
+router.post('/upload',upload.single('image_data'),async(req,res,next)=>{
+    try{
+    const x=await controller.imageupload(req,res,next);
     console.log(x);
+    }
+    catch(err)
+    {
+        next(err);
+    }
 })
 
 router.get('/flying',async(req,res)=>{
@@ -65,7 +71,7 @@ router.get('/flying',async(req,res)=>{
 
     const c=await controller.flightdata(req,res);
     console.log(c);
-    res.render("flying")
+    // res.render("flying",{options:[]});
    
 })
 
@@ -75,7 +81,7 @@ router.post('/flying',async(req,res)=>{
     console.log("Hi")
     const y=await controller.flying(req,res);
     console.log(y);
-    res.render("flying");
+    res.render("crash");
 })
 
 router.post('/crash',async(req,res)=>{

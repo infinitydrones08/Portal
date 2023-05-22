@@ -14,16 +14,24 @@ module.exports.datahere=async(req,res)=>{
     }
 
 }
-module.exports.imageupload=(req,res,next)=>{
+module.exports.imageupload=async(req,res,next)=>{
+    try{
     const imageData=req.file.buffer;
     const query={
         text:'INSERT INTO crash (image_data) VALUES ($1) RETURNING id',
         values:[imageData]
-    }
-    pool.query(query)
-    .then(result=>res.json({id:result.rows[0].id}))
-    .catch(err=>next(err));
+    };
+    const result=await pool.query(query);
+    res.json({id:result.rows[0].id})
 }
+
+catch(err){
+next(err);
+    // pool.query(query)
+    // .then(result=>res.json({id:result.rows[0].id}))
+    // .catch(err=>next(err));
+}
+};
 
 module.exports.signup=async(req,res)=>{
     try {
