@@ -14,6 +14,12 @@ router.get('/',async(req,res)=>{
     console.log(z);
     res.render("signup")
 })
+router.get('/upload',async(req,res)=>{
+    res.render("image")
+})
+router.get('/admin',async(req,res)=>{
+    res.render("admin")
+})
 
 // router.post('/signup',async(req,res)=>{
 //     const n=await controller.check(req,res);
@@ -81,7 +87,8 @@ router.post('/flying',async(req,res)=>{
     console.log("Hi")
     const y=await controller.flying(req,res);
     console.log(y);
-    res.render("crash");
+    // res.render("login");
+    res.send("Report Submission Done")
 })
 
 router.post('/crash',async(req,res)=>{

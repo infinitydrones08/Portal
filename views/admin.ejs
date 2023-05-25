@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Side Navigation Bar</title>
+  <style>
+    /* Define styles for the side navigation bar */
+    .sidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #f1f1f1;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+    }
+    
+    /* Define styles for the navigation links */
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+    
+    /* Add a background color to the active/current link */
+    .sidenav a.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    /* Style the navigation links on hover */
+    .sidenav a:hover {
+      color: #3eeb13;
+    }
+    
+    /* Define styles for the hamburger menu */
+    .hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 2;
+    }
+    
+    .hamburger .bar {
+      width: 35px;
+      height: 5px;
+      background-color: #333;
+      margin: 6px 0;
+      transition: 0.4s;
+    }
+    
+    /* Rotate first bar */
+    .hamburger.active .bar:nth-child(1) {
+      transform: rotate(-45deg) translate(-9px, 6px);
+    }
+    
+    /* Hide middle bar */
+    .hamburger.active .bar:nth-child(2) {
+      opacity: 0;
+    }
+    
+    /* Rotate third bar */
+    .hamburger.active .bar:nth-child(3) {
+      transform: rotate(45deg) translate(-8px, -8px);
+    }
+    
+    /* Define styles for the content area */
+    .content {
+      margin-left: 70px;
+      padding: 20px;
+      transition: 0.5s;
+    }
+  </style>
+  <script>
+    // Toggle the sidebar
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const content = document.getElementById('content');
+      const hamburger = document.getElementById('hamburger');
+      
+      if (sidebar.style.width === '250px') {
+        sidebar.style.width = '0';
+        content.style.marginLeft = '70px';
+        hamburger.classList.remove('active');
+      } else {
+        sidebar.style.width = '250px';
+        content.style.marginLeft = '320px';
+        hamburger.classList.add('active');
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Hamburger Menu -->
+  <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  
+  <!-- Side Navigation Bar -->
+  <div class="sidenav" id="sidebar">
+    <a href="#">Dashboard</a>
+    <a href="#">Add Details</a>
+  </div>
+  
+  <!-- Content Area -->
+  <div class="content" id="content">
+    <h1>Welcome to the Website!</h1>
+    <p>This is the content area of the website.</p>
+  </div>
+</body>
+</html>

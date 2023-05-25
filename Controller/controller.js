@@ -3,6 +3,7 @@ const jwt=require("jsonwebtoken");
 const app=express();
 
 const pool=require("../database");
+require('dotenv').config();
 module.exports.datahere=async(req,res)=>{
     try{
         const k=await pool.query("select * from signup");
@@ -14,24 +15,7 @@ module.exports.datahere=async(req,res)=>{
     }
 
 }
-module.exports.imageupload=async(req,res,next)=>{
-    try{
-    const imageData=req.file.buffer;
-    const query={
-        text:'INSERT INTO crash (image_data) VALUES ($1) RETURNING id',
-        values:[imageData]
-    };
-    const result=await pool.query(query);
-    res.json({id:result.rows[0].id})
-}
 
-catch(err){
-next(err);
-    // pool.query(query)
-    // .then(result=>res.json({id:result.rows[0].id}))
-    // .catch(err=>next(err));
-}
-};
 
 module.exports.signup=async(req,res)=>{
     try {
@@ -180,6 +164,17 @@ module.exports.flightdata=async(req,res)=>{
 module.exports.flying=async(req,res)=>{
     try{
         const answer=req.body.answer;
+        console.log(answer)
+        const selectedDroneId=req.body.drone_id;
+        console.log(selectedDroneId)
+        const [drone_name,droneId]=selectedDroneId.split('-');
+        console.log(drone_name,droneId)
+        
+        
+            const query1= await pool.query(`SELECT drone_id FROM drones WHERE drone_name=$1`,[drone_name]);
+            console.log(query1.rows);
+            console.log(query1[2])
+
         if(answer==='yes'){
         console.log("let's fly");
         var{flight_id,pilot_id,duration,date,mode,drone_id}=req.body
@@ -188,6 +183,7 @@ module.exports.flying=async(req,res)=>{
         console.log(y);
         }
         else if(answer==='no'){
+            var{flight_id,pilot_id,duration,date,mode,drone_id}=req.body
             var n=await pool.query(`INSERT INTO flight_description (flight_id,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6)`,[flight_id,pilot_id,duration,date,mode,drone_id]);
             console.log("Insertion Successful")
         console.log(n);
@@ -214,10 +210,11 @@ module.exports.droneslistdata=async(req,res)=>{
         if(authcookie.iat - new Date().getTime() < 60000){
 
     try{
-        const {rows}=await pool.query("SELECT drone_name FROM drones");
+        const {rows}=await pool.query("SELECT drone_name,drone_id FROM drones");
         console.log({rows})
         console.log("Hi")
-        const list=rows.map(row=>row.drone_name);
+        // const list=rows.map(row=>row.drone_id);
+        const list = rows.map(row => ({ droneName: row.drone_name, droneId: row.drone_id }))
         console.log(list)
         res.render('flying',{options:list})
     }
@@ -246,3 +243,21 @@ module.exports.crashdetails=async(req,res)=>{
         console.log(err)
     }
 }
+module.exports.imageupload=async(req,res,next)=>{
+    try{
+    const imageData=req.file.buffer;
+    const query={
+        text:'INSERT INTO image (image_data) values ($1)',
+        values:[imageData]
+    };
+    const result=await pool.query(query);
+    res.json({id:result.rows[0].id})
+}
+
+catch(err){
+next(err);
+    // pool.query(query)
+    // .then(result=>res.json({id:result.rows[0].id}))
+    // .catch(err=>next(err));
+}
+};

@@ -37,7 +37,7 @@
         Type of drone :
        <select name="drone_id" id="drone_id"> 
           <% options.forEach(option => { %>
-            <option value="<%= option %>"><%= option %></option>
+            <option value="<%= option.droneId %>"><%= option.droneName %></option>
           <% }); %>
         </select>
     </div>

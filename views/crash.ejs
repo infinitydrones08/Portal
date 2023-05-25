@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Crash Details</h1>
-    <form action="/crash" method="POST"></form>
+    <form action="/crash" method="POST">
     <div>
         Drone Name
         <input type="text" id="drone_name" name="drone_name" placeholder="Drone Name" required>
@@ -31,10 +31,9 @@
         <input type="text" id="reason" name="reason"
         placeholder="Reason" required>
     </div>
-
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="image_data">
-    <button type="submit">Upload</button>
+    <a href="/upload">Click here</a>
 </form>
+
+  <button type="submit">Submit</button>
 </body>
 </html>

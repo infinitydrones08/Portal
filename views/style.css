@@ -1,0 +1,19 @@
+/* style.css */
+.sidebar {
+    width: 200px;
+    background-color: #f1f1f1;
+    height: 100vh; /* Adjust the height as needed */
+  }
+  
+  .menu-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .content {
+    /* Adjust the styles for the main content area */
+  }
+  
