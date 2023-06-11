@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+</head>
+<body>
+    <h1>View Details</h1>
+
+    <ul>
+        <% data.forEach(item=>{ %>
+        <li>Flight Id: <%=item.flight_id %></li>
+        <li>Pilot Id: <%=item.pilot_id %></li>
+        <li>Duration: <%=item.duration.value %></li>
+        <li>Mode: <%=item.mode %></li>
+        <li>Date: <%=item.date %></li>
+        <li>Drone Id: <%=item.drone_id %></li>
+        <li>Email Id: <%=item.emailid %></li>
+        <% }); %>
+    </ul>
+</body>
+</html>

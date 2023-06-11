@@ -1,5 +1,7 @@
 const express=require('express')
 const jwt=require("jsonwebtoken");
+const session = require('express-session');
+
 // const app=express();
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser')
@@ -9,7 +11,7 @@ const controller=require("../Controller/controller");
 router.use(bodyParser.urlencoded({extended:true}))
 router.use(bodyParser.json())
 router.use(cookieParser())
-router.get('/',async(req,res)=>{
+router.get('/signup',async(req,res)=>{
     const z=await controller.datahere(req,res);
     console.log(z);
     res.render("signup")
@@ -17,8 +19,14 @@ router.get('/',async(req,res)=>{
 router.get('/upload',async(req,res)=>{
     res.render("image")
 })
-router.get('/admin',async(req,res)=>{
+router.get('/admin',checkToken,async(req,res)=>{
     res.render("admin")
+})
+router.get('/logout',(req,res)=>{
+    const authcookie=req.cookies.authcookie
+    const email=req.cookies.email
+    res.clearCookie('authcookie');
+    res.redirect('/login');
 })
 
 // router.post('/signup',async(req,res)=>{
@@ -60,7 +68,7 @@ router.post('/upload',upload.single('image_data'),async(req,res,next)=>{
     }
 })
 
-router.get('/flying',async(req,res)=>{
+router.get('/flying',checkToken,async(req,res)=>{
     
     const data=await controller.droneslistdata(req,res);
     console.log(data);
@@ -81,7 +89,22 @@ router.get('/flying',async(req,res)=>{
    
 })
 
-router.post('/flying',async(req,res)=>{
+router.get('/viewdetails',checkToken,async(req,res)=>{
+    
+    console.log("working");
+    const data=await controller.viewdetails(req,res);
+    
+    
+    res.render('viewdetails',{data});
+    // res.send(y);
+    // console.log(y);
+    // res.send("Displaying current user details")
+    // res.render('admin')
+    
+})
+
+router.post('/flying',checkToken,async(req,res)=>{
+    
     const h=req.body;
     console.log(h)
     console.log("Hi")
@@ -91,7 +114,7 @@ router.post('/flying',async(req,res)=>{
     res.send("Report Submission Done")
 })
 
-router.post('/crash',async(req,res)=>{
+router.post('/crash',checkToken,async(req,res)=>{
     const p=req.body
     console.log(p);
     const t=await controller.crashdetails(req,res);
@@ -145,6 +168,8 @@ function checkToken(req,res,next){
     //get authcookie from request
 
     const authcookie=req.cookies.authcookie
+    const email=req.cookies.email
+    console.log(email)
     console.log(authcookie)
 
     //verify token which is in cookie value

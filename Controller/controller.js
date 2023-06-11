@@ -2,7 +2,17 @@ const express=require('express');
 const jwt=require("jsonwebtoken");
 const app=express();
 
+const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
+const router=express.Router();
+router.use(bodyParser.urlencoded({extended:true}))
+router.use(bodyParser.json())
+router.use(cookieParser())
+
+
 const pool=require("../database");
+const { cookie } = require('express/lib/response');
+const { use } = require('../Router');
 require('dotenv').config();
 module.exports.datahere=async(req,res)=>{
     try{
@@ -52,7 +62,7 @@ module.exports.signup=async(req,res)=>{
                     
                 }else{
                     pool.query("insert into signup (name,emailid,password,cpassword,phone_number)values($1,$2,$3,$4,$5)",[name,emailid,password,cpassword,phone_number]);
-                    res.redirect('/flying')
+                    res.redirect('/login')
                 }
             })
         }
@@ -128,11 +138,19 @@ module.exports.logincheck=async(req,res)=>{
         else{
             if(results.rows.length>0){
                 console.log("Successful");
+               
+                const userEmail=results.rows[0].emailid;
+                console.log(userEmail)
+                // console.log(userEmail+"This is the current user");
+
                 const token=jwt.sign({emailid},'sfhsfhsfhfsiofhiosghiogjiogjdoghfioghioghfodiofghdfiogh');
+                
 
                 // res.json({token:token});
                 console.log(token)
                 res.cookie('authcookie',token,{maxAge:120000,httpOnly:true})
+                res.cookie('email',userEmail);
+                // res,cookie('email')
                 res.redirect('/flying')
             }
             else{
@@ -177,14 +195,14 @@ module.exports.flying=async(req,res)=>{
 
         if(answer==='yes'){
         console.log("let's fly");
-        var{flight_id,pilot_id,duration,date,mode,drone_id}=req.body
+        var{flight_id,emailid,pilot_id,duration,date,mode,drone_id}=req.body
         console.log(req.body)
-        var y=await pool.query(`INSERT INTO flight_description (flight_id,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6)`,[flight_id,pilot_id,duration,date,mode,drone_id]);
+        var y=await pool.query(`INSERT INTO flight_description (flight_id,emailid,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6,$7)`,[flight_id,emailid,pilot_id,duration,date,mode,drone_id]);
         console.log(y);
         }
         else if(answer==='no'){
-            var{flight_id,pilot_id,duration,date,mode,drone_id}=req.body
-            var n=await pool.query(`INSERT INTO flight_description (flight_id,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6)`,[flight_id,pilot_id,duration,date,mode,drone_id]);
+            var{flight_id,emailid,pilot_id,duration,date,mode,drone_id}=req.body
+            var n=await pool.query(`INSERT INTO flight_description (flight_id,emailid,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6,$7)`,[flight_id,emailid,pilot_id,duration,date,mode,drone_id]);
             console.log("Insertion Successful")
         console.log(n);
             res.render('crash');
@@ -232,11 +250,11 @@ module.exports.droneslistdata=async(req,res)=>{
 module.exports.crashdetails=async(req,res)=>{
     try{
         console.log("Crash Details Submission");
-        let {drone_name,pilot_id,flight_id,damaged_parts,reason}=req.body;
+        let {drone_name,emailid,pilot_id,flight_id,damaged_parts,reason}=req.body;
         console.log({
-            drone_name,pilot_id,flight_id,damaged_parts,reason
+            drone_name,emailid,pilot_id,flight_id,damaged_parts,reason
         })
-        pool.query('INSERT INTO crash (drone_name,pilot_id,flight_id,damaged_parts,reason)values($1,$2,$3,$4,$5)',[drone_name,pilot_id,flight_id,damaged_parts,reason]);
+        pool.query('INSERT INTO crash (drone_name,emailid,pilot_id,flight_id,damaged_parts,reason)values($1,$2,$3,$4,$5,$6)',[drone_name,emailid,pilot_id,flight_id,damaged_parts,reason]);
         console.log("Submission Successful");
     }
     catch(err){
@@ -261,3 +279,15 @@ next(err);
     // .catch(err=>next(err));
 }
 };
+
+module.exports.viewdetails=async(req,res)=>{
+    try{
+        const email=req.cookies.email
+        console.log(email);
+        const k=await pool.query(`SELECT * FROM flight_description WHERE emailid=$1`,[email]);
+        return k.rows;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
