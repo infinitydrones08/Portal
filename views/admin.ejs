@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Side Navigation Bar</title>
+  <title>Admin Page</title>
   <style>
     /* Define styles for the side navigation bar */
     .sidenav {
       height: 100%;
-      width: 0;
+      width: 250px;
       position: fixed;
       z-index: 1;
       top: 0;
@@ -40,39 +40,12 @@
     
     /* Define styles for the hamburger menu */
     .hamburger {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      cursor: pointer;
-      z-index: 2;
-    }
-    
-    .hamburger .bar {
-      width: 35px;
-      height: 5px;
-      background-color: #333;
-      margin: 6px 0;
-      transition: 0.4s;
-    }
-    
-    /* Rotate first bar */
-    .hamburger.active .bar:nth-child(1) {
-      transform: rotate(-45deg) translate(-9px, 6px);
-    }
-    
-    /* Hide middle bar */
-    .hamburger.active .bar:nth-child(2) {
-      opacity: 0;
-    }
-    
-    /* Rotate third bar */
-    .hamburger.active .bar:nth-child(3) {
-      transform: rotate(45deg) translate(-8px, -8px);
+      display: none; /* Hide the hamburger menu by default */
     }
     
     /* Define styles for the content area */
     .content {
-      margin-left: 70px;
+      margin-left: 250px; /* Adjust the margin to match the sidebar width */
       padding: 20px;
       transition: 0.5s;
     }

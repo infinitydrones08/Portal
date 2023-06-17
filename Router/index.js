@@ -19,6 +19,9 @@ router.get('/signup',async(req,res)=>{
 router.get('/upload',async(req,res)=>{
     res.render("image")
 })
+router.get('/profile',async(req,res)=>{
+    res.render("profile");
+})
 router.get('/admin',checkToken,async(req,res)=>{
     res.render("admin")
 })
@@ -111,7 +114,8 @@ router.post('/flying',checkToken,async(req,res)=>{
     const y=await controller.flying(req,res);
     console.log(y);
     // res.render("login");
-    res.send("Report Submission Done")
+    // res.send("Report Submission Done")
+    // alert("done");
 })
 
 router.post('/crash',checkToken,async(req,res)=>{
@@ -119,7 +123,7 @@ router.post('/crash',checkToken,async(req,res)=>{
     console.log(p);
     const t=await controller.crashdetails(req,res);
     console.log(t)
-    res.render('crash');
+    // res.render('crash');
 })
 router.get('/login',(req,res)=>{
     res.render('login');

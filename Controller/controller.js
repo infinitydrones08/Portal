@@ -1,4 +1,5 @@
 const express=require('express');
+const uuid = require('uuid');
 const jwt=require("jsonwebtoken");
 const app=express();
 
@@ -151,7 +152,8 @@ module.exports.logincheck=async(req,res)=>{
                 res.cookie('authcookie',token,{maxAge:120000,httpOnly:true})
                 res.cookie('email',userEmail);
                 // res,cookie('email')
-                res.redirect('/flying')
+                // res.redirect('/flying',{email:userEmail})   The res.redirect() method does not accept additional data to be passed as an object
+                res.redirect('/flying');
             }
             else{
                 console.log("Wrong Email password")
@@ -197,15 +199,17 @@ module.exports.flying=async(req,res)=>{
         console.log("let's fly");
         var{flight_id,emailid,pilot_id,duration,date,mode,drone_id}=req.body
         console.log(req.body)
-        var y=await pool.query(`INSERT INTO flight_description (flight_id,emailid,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6,$7)`,[flight_id,emailid,pilot_id,duration,date,mode,drone_id]);
+        var y=await pool.query(`INSERT INTO flight_description (flight_id,emailid,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6)`,[flight_id,emailid,duration,date,mode,drone_id]);
         console.log(y);
         }
         else if(answer==='no'){
             var{flight_id,emailid,pilot_id,duration,date,mode,drone_id}=req.body
-            var n=await pool.query(`INSERT INTO flight_description (flight_id,emailid,pilot_id,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6,$7)`,[flight_id,emailid,pilot_id,duration,date,mode,drone_id]);
+            var n=await pool.query(`INSERT INTO flight_description (flight_id,emailid,duration,date,mode,drone_id) VALUES ($1,$2,$3,$4,$5,$6)`,[flight_id,emailid,duration,date,mode,drone_id]);
             console.log("Insertion Successful")
         console.log(n);
-            res.render('crash');
+        const email=req.cookies.email
+        console.log(email);
+            res.render('crash',{email:email});
         }
         else{
             res.status(400).send("Invalid answer'")
@@ -234,7 +238,22 @@ module.exports.droneslistdata=async(req,res)=>{
         // const list=rows.map(row=>row.drone_id);
         const list = rows.map(row => ({ droneName: row.drone_name, droneId: row.drone_id }))
         console.log(list)
-        res.render('flying',{options:list})
+        const email=req.cookies.email
+        console.log(email);
+        const userId = uuid.v4()
+        res.render('flying',{options:list,email:email,userId:userId})
+        /*function generateShortId() {
+            const timestamp = Date.now().toString(36); // Convert current timestamp to base36 string
+            const randomNumber = Math.floor(Math.random() * 10000).toString(36); // Generate random number and convert to base36 string
+            const id = timestamp + randomNumber; // Combine timestamp and random number
+            return id;
+          }
+          
+          // Usage
+          const userId = generateShortId();
+          console.log(userId);
+          */
+          
     }
     catch(err){
         console.log(err)
@@ -254,7 +273,7 @@ module.exports.crashdetails=async(req,res)=>{
         console.log({
             drone_name,emailid,pilot_id,flight_id,damaged_parts,reason
         })
-        pool.query('INSERT INTO crash (drone_name,emailid,pilot_id,flight_id,damaged_parts,reason)values($1,$2,$3,$4,$5,$6)',[drone_name,emailid,pilot_id,flight_id,damaged_parts,reason]);
+        pool.query('INSERT INTO crash (drone_name,emailid,flight_id,damaged_parts,reason)values($1,$2,$3,$4,$5)',[drone_name,emailid,flight_id,damaged_parts,reason]);
         console.log("Submission Successful");
     }
     catch(err){

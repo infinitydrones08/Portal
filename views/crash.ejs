@@ -4,43 +4,167 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crash Details</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <style>
+        .sidenav {
+      height: 100%;
+      width: 250px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #f1f1f1;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+    }
+    
+    /* Define styles for the navigation links */
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+    
+    /* Add a background color to the active/current link */
+    .sidenav a.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    /* Style the navigation links on hover */
+    .sidenav a:hover {
+      color: #3eeb13;
+    }
+    
+    /* Define styles for the hamburger menu */
+    .hamburger {
+      display: none; /* Hide the hamburger menu by default */
+    }
+    
+    /* Define styles for the content area */
+    .content {
+      margin-left: 250px; /* Adjust the margin to match the sidebar width */
+      padding: 20px;
+      transition: 0.5s;
+    }
+        body {
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin: 20px auto;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            text-decoration: none;
+        }
+
+        button[type="submit"] {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const content = document.getElementById('content');
+      const hamburger = document.getElementById('hamburger');
+      
+      if (sidebar.style.width === '250px') {
+        sidebar.style.width = '0';
+        content.style.marginLeft = '70px';
+        hamburger.classList.remove('active');
+      } else {
+        sidebar.style.width = '250px';
+        content.style.marginLeft = '320px';
+        hamburger.classList.add('active');
+      }
+    }
+    </script>
 </head>
 <body>
+    <!-- Hamburger Menu -->
+  <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  
+  <!-- Side Navigation Bar -->
+  <div class="sidenav" id="sidebar">
+    <a href="#">Dashboard</a>
+    <a href="#">Add Details</a>
+  </div>
     <h1>Crash Details</h1>
     <form action="/crash" method="POST">
-    <div>
-        Drone Name
-        <input type="text" id="drone_name" name="drone_name" placeholder="Drone Name" required>
-    </div>
-    <div>
-        Email Id :
-        <input type="email" id="emailid" name="emailid" placeholder="Email Id" required>
-    </div>
-    <div>
-        Pilot Id :
-            <input type="text" id="pilot_id" name="pilot_id" placeholder="Pilot Id" required>
-    </div>
-    <div>
-        Flight Id :
-        <input type="text" id="flight_id" name="flight_id" placeholder="Flight Id" required>
-    </div>
-    <div>
-        Damaged Parts:
-        <input type="text" id="damaged_parts" name="damaged_parts" placeholder="Damaged parts" required>
-    </div>
-    <div>
-        Reason:
-        <input type="text" id="reason" name="reason"
-        placeholder="Reason" required>
-    </div>
-    <a href="/upload">Click here</a>
-</form>
-
-  <button type="submit">Submit</button>
-  <div>
-    <a href="/logout"> Log Out</a>
-</div>
+        <div>
+            <label for="drone_name">Drone Name:</label>
+            <input type="text" id="drone_name" name="drone_name" placeholder="Drone Name" required>
+        </div>
+        <div>
+            <label for="emailid">Email ID:</label>
+            <input type="email" id="emailid" name="emailid" placeholder="Email ID" value="<%= email %>" readonly>
+        </div>
+       
+        <div>
+            <label for="flight_id">Flight Id:</label>
+            <input type="text" id="flight_id" name="flight_id" placeholder="Flight Id" required>
+        </div>
+        <div>
+            <label for="damaged_parts">Damaged Parts:</label>
+            <input type="text" id="damaged_parts" name="damaged_parts" placeholder="Damaged parts" required>
+        </div>
+        <div>
+            <label for="reason">Reason:</label>
+            <input type="text" id="reason" name="reason" placeholder="Reason" required>
+        </div>
+        <a href="/upload">Click here</a>
+        <button type="submit">Submit</button>
+        <div>
+            <a href="/logout">Log Out</a>
+        </div>
+    </form>
 </body>
 </html>

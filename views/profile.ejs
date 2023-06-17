@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <style>
+        /* Center the heading */
+        h1 {
+            text-align: center;
+        }
+
+        /* Style the container */
+        .container {
+            margin: 20px;
+        }
+
+        /* Style the labels */
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Style the inputs */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        /* Style the button */
+        button[type="update"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Style the link */
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    <title>Profile</title>
+</head>
+<body>
+    <h1> PROFILE </h1>
+    <form action="/profile" method="POST">
+        <div class="container">
+            <label>Name:</label>
+            <input type="text" placeholder="Username" name="pname" id="pid" required>
+            <label>Email Id:</label>
+            <input type="email" placeholder="Email Id" name="pemailid" id="pemailid" required>
+            <label>Phone Number:</label>
+            <input type="tel" placeholder="Phonenumber" name="pphone_number" id="pphone_number" required>
+            <label>Experience:</label>
+            <input type="text" placeholder="experience" name="pexperience" id="pexp" required>
+            <label>Honours and Achievements:</label>
+            <input type="text" placeholder="honours and achievements" name="pach" id="pach" required>
+        </div>
+
+        <button type="update">Profile</button>
+        <a href="/admin">No update required</a>
+    </form>
+</body>
+</html>
