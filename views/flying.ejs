@@ -127,6 +127,34 @@
             color: #666;
             text-decoration: none;
         }
+        .top-nav {
+  background-color: #333;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.top-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  height: 100%;
+  transition: background-color 0.3s;
+}
+
+.top-nav a:hover {
+  background-color: #ff9800;
+}
+
     </style>
     <script>
         window.addEventListener("DOMContentLoaded", () => {
@@ -156,10 +184,13 @@
     </script>
 </head>
 <body>
-    <a href="/profile">
+    <nav class="top-nav">
+        <a href="/profile">Profile</a>
+      </nav>
+    <!-- <a href="/profile">
         <div class="profile-icon">
             <img src="./OIP.jpeg" alt="Profile Picture" />
-        </div>
+        </div> -->
     </a>
     <h1>Flying Details</h1>
     <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
