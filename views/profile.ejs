@@ -1,3 +1,5 @@
+<%- include('./reusable/member_reusable') %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,10 +51,16 @@
             text-align: center;
             margin-top: 10px;
         }
+        
+      .leftspace{
+    margin-left: 20%;
+  }
+        
     </style>
     <title>Profile</title>
 </head>
 <body>
+    <div class="leftspace">
     <h1> PROFILE </h1>
     <form action="/profile" method="POST">
         <div class="container">
@@ -71,5 +79,6 @@
         <button type="update">Profile</button>
         <a href="/admin">No update required</a>
     </form>
+</div>
 </body>
 </html>

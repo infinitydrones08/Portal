@@ -1,23 +1,110 @@
-/* style.css */
-.sidebar {
-    width: 200px;
-    background-color: #f1f1f1;
-    height: 100vh; /* Adjust the height as needed */
-  }
-  
-  .menu-button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    padding: 10px;
-    cursor: pointer;
-  }
-  
+/* styles.css */
 
-  .profile-icon {
-    width: 100px; /* Adjust the width and height to fit your design */
-    height: 100px;
-    border-radius: 100%; /* Makes the element circular */
-    background-color: blue; /* Set your desired background color */
-  }
+/* Define styles for the side navigation bar */
+.sidenav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #f1f1f1;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  /* Additional styles for the top navigation integration */
+  position: absolute;
+}
 
+/* Adjust the position of the sidebar */
+.sidenav {
+  position: absolute;
+}
+
+/* Define styles for the content area */
+.content {
+  margin-left: 250px; /* Adjust the margin to match the sidebar width */
+  padding: 20px;
+  transition: 0.5s;
+  margin-top: 60px; /* Add margin to accommodate the top navigation */
+}
+
+/* Define styles for the profile icon */
+.profile-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Define styles for the profile icon's inner dot */
+.profile-icon::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+/* Adjust the hamburger menu's position */
+.hamburger {
+  display: block;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Add margin to the content area when the sidebar is closed */
+.hamburger.active + #content {
+  margin-left: 70px;
+}
+
+/* Define styles for the top navigation bar */
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Define styles for the navigation links within the top navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of the active/current navigation link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Change the appearance of navigation links on hover */
+.topnav a:hover {
+  background-color: #3eeb13;
+  color: white;
+}
+
+/* Add a "clearfix" to clear floats after the top navigation */
+.topnav::after {
+  content: "";
+  clear: both;
+  display: table;
+}

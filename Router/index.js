@@ -19,6 +19,12 @@ router.get('/signup',async(req,res)=>{
 router.get('/upload',async(req,res)=>{
     res.render("image")
 })
+router.get('/try',async(req,res)=>{
+    res.render("try")
+})
+router.get('/result',async(req,res)=>{
+    res.render("result")
+})
 router.get('/profile',async(req,res)=>{
     res.render("profile");
 })
@@ -188,6 +194,38 @@ function checkToken(req,res,next){
         }
     })
 }
+router.get('/dashboard',checkToken,async(req,res)=>{
+    
+    // console.log("working");
+    // const data=await controller.dashboard(req,res);
+    // console.log(data);
+    // let sum=0;
+    // for(let i=0;i<data.length;i++)
+    // {
+    //     sum+=parseInt(data[i].duration,10);
+    // }
+    // console.log(sum)
+    // res.render('dashboard',{sum});
+    // res.send(y);
+    // console.log(y);
+    // res.send("Displaying current user details")
+    // res.render('admin')
+
+
+    try{
+        console.log("Working");
+        const { totalDuration,results,crashDetails}=await controller.dashboard(req,res);
+        console.log(crashDetails);
+        console.log(totalDuration);
+        res.render('dashboard',{totalDuration,results,query4:crashDetails})
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.render('dashboard',{totalDuration:0,results:[],query4:[]});
+    }
+    
+})
 
 
 

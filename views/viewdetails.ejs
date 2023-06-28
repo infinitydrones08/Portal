@@ -1,3 +1,5 @@
+<%- include('./reusable/member_reusable') %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,20 +8,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <style>
+      .leftspace{
+        margin-left: 20%;
+      }
+    </style>
 </head>
 <body>
+    <div class="leftspace">
     <h1>View Details</h1>
 
     <ul>
-        <% data.forEach(item=>{ %>
-        <li>Flight Id: <%=item.flight_id %></li>
-        <li>Pilot Id: <%=item.pilot_id %></li>
-        <li>Duration: <%=item.duration.value %></li>
-        <li>Mode: <%=item.mode %></li>
-        <li>Date: <%=item.date %></li>
-        <li>Drone Id: <%=item.drone_id %></li>
-        <li>Email Id: <%=item.emailid %></li>
+        <% data.forEach((item, index) => { %>
+          <li>Flight Id: <%= item.flight_id %></li>
+          <li>Duration: <%= item.duration.value %></li>
+          <li>Mode: <%= item.mode %></li>
+          <li>Date: <%= item.date %></li>
+          <li>Drone Id: <%= item.drone_id %></li>
+          <li>Email Id: <%= item.emailid %></li>
+          <% if (index !== data.length - 1) { %>
+            <hr>
+          <% } %>
         <% }); %>
-    </ul>
+      </ul>
+    </div>
 </body>
 </html>

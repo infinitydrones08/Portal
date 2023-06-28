@@ -1,3 +1,5 @@
+<%- include('./reusable/member_reusable') %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,76 +9,17 @@
     <title>Flying</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
     <style>
-        .sidenav {
-      height: 100%;
-      width: 250px;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background-color: #f1f1f1;
-      overflow-x: hidden;
-      transition: 0.5s;
-      padding-top: 60px;
-    }
-    
-    /* Define styles for the navigation links */
-    .sidenav a {
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
-      font-size: 20px;
-      color: #818181;
-      display: block;
-      transition: 0.3s;
-    }
-    
-    /* Add a background color to the active/current link */
-    .sidenav a.active {
-      background-color: #4CAF50;
-      color: white;
-    }
-    
-    /* Style the navigation links on hover */
-    .sidenav a:hover {
-      color: #3eeb13;
-    }
-    
-    /* Define styles for the hamburger menu */
-    .hamburger {
-      display: none; /* Hide the hamburger menu by default */
-    }
-    
-    /* Define styles for the content area */
-    .content {
-      margin-left: 250px; /* Adjust the margin to match the sidebar width */
-      padding: 20px;
-      transition: 0.5s;
-    }
         body {
             background-color: #f0f0f0;
         }
-
-        .profile-icon {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: navajowhite;
-            margin-right: 10px;
-            overflow: hidden;
-            display: inline-block;
-            transition: transform 0.3s ease-in-out;
+        .topspace{
+          margin-top: 5%;
         }
+        
 
-        .profile-icon:hover {
-            transform: rotate(360deg);
-        }
+       
 
-        .profile-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
+        
         h1 {
             text-align: center;
         }
@@ -120,40 +63,9 @@
             background-color: #45a049;
         }
 
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-            color: #666;
-            text-decoration: none;
-        }
-        .top-nav {
-  background-color: #333;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
-  overflow: hidden;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
+     
 
-.top-nav a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  text-decoration: none;
-  font-size: 18px;
-  height: 100%;
-  transition: background-color 0.3s;
-}
 
-.top-nav a:hover {
-  background-color: #ff9800;
-}
 
     </style>
     <script>
@@ -184,7 +96,7 @@
     </script>
 </head>
 <body>
-    <nav class="top-nav">
+  <div class="topspace">
         <a href="/profile">Profile</a>
       </nav>
     <!-- <a href="/profile">
@@ -193,17 +105,8 @@
         </div> -->
     </a>
     <h1>Flying Details</h1>
-    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
       
-      <!-- Side Navigation Bar -->
-      <div class="sidenav" id="sidebar">
-        <a href="#">Dashboard</a>
-        <a href="#">Add Details</a>
-      </div>
+    
     <form action="/flying" method="POST">
         <div>
             <label for="flight_id">Flight Id:</label>
@@ -213,11 +116,14 @@
             <label for="emailid">Email ID:</label>
             <input type="email" id="emailid" name="emailid" placeholder="Email ID" value="<%= email %>" readonly>
           </div>
-        
+          <div>
+            <label for="copilot">Copilot:</label>
+            <input type="text" id="copilot" name="copilot" placeholder="Copilot" >
+          </div>
 
         <div>
             <label for="duration">Flight Time:</label>
-            <input type="time" id="duration" name="duration" placeholder="Duration" required>
+            <input type="number" id="duration" name="duration" placeholder="Duration" required>
         </div>
         <div>
             <label for="date">Date:</label>
@@ -226,6 +132,34 @@
         <div>
             <label for="mode">Mode:</label>
             <input type="text" id="mode" name="mode" placeholder="Mode" required>
+        </div>
+        <div>
+            <label for="Batteryid">Battery ID:</label>
+            <select name="batteryid" id="batteryid"> 
+                <% batteries.forEach(option => { %>
+                  <option value="<%= option.batteryid %>"><%= option.batteryid %></option>
+                <% }); %>
+              </select>
+        </div>
+        <div>
+            <label for="tovoltage">Take Off Voltage:</label>
+            <input type="text" id="takeoffvoltage" name="takeoffvoltage" placeholder="Voltage" required>
+        </div>
+        <div>
+            <label for="lvoltage">Landing Voltage:</label>
+            <input type="text" id="landingvoltage" name="ladingvoltage" placeholder="Voltage" required>
+        </div>
+        <div>
+            <label for="windspeed">Wind Speed:</label>
+            <input type="text" id="windspeed" name="windspeed" placeholder="windspeed" required>
+        </div>
+        <div>
+            <label for="direction">Wind Direction:</label>
+            <select name="winddirection" id="winddirection"> 
+                <% direction.forEach(option => { %>
+                  <option value="<%= option.winddirection %>"><%= option.winddirection %></option>
+                <% }); %>
+              </select>
         </div>
         <div>
             <label for="drone_id">Type of drone:</label>
@@ -245,5 +179,6 @@
         </div>
         
     </form>
+  </div>
 </body>
 </html>
