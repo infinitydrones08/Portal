@@ -1,0 +1,83 @@
+<%- include('./reusable/member_reusable') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <style>
+      .leftspace{
+    margin-left: 20%;
+  }
+  .crashtable{
+    border: 1px solid red;
+  }
+  th,td{
+    border: 1px solid red;
+  }
+    </style>
+</head>
+<body>
+  <div class="leftspace" >
+        <h1>DashBoard</h1>
+      
+        <h2>Total Duration: <%= totalDuration %> minutes</h2>
+      <p>
+        <% if (results.length > 0) { %>
+          <h3>Duration for Each Plane:</h3>
+          <ul>
+            <% results.forEach((result) => { %>
+              <li>
+                <p>Plane ID: <%= result.planeId.drone_id %></p>
+                <p>Duration: <%= result.duration %> minutes</p>
+              </li>
+            <% }); %>
+          </ul>
+        <% } else { %>
+          <p>No results found.</p>
+        <% } %>
+    </p>
+    <h2>Flight Details:</h2>
+<% if (query4.length > 0) { %>
+  <table class="crashtable">
+    <thead>
+      <tr>
+        <th>Drone ID</th>
+        <th>Drone Name</th>
+        <th>Flight ID</th>
+        <th>Mode</th>
+        <th>Date</th>
+        <th>Duration</th>
+        <th>Email ID</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% query4.forEach((crash, index) => { %>
+        <tr>
+          <td><%= crash.drone_id %></td>
+          <td><%= crash.droneName %></td>
+          <td><%= crash.flight_id %></td>
+          <td><%= crash.mode %></td>
+          <td><%= crash.date %></td>
+          <td><%= crash.duration %></td>
+          <td><%= crash.emailid %></td>
+          <td><%= crash.result %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } else { %>
+  <p>No crash details available.</p>
+<% } %>
+
+
+    
+
+</div>
+      
+</body>
+</html>
