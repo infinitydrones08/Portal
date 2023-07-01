@@ -352,7 +352,7 @@ module.exports.dashboard=async(req,res)=>{
         for(let i=0;i<query2.rows.length;i++){
         const dur=query2.rows[i]
         console.log(dur)
-        const query3=await pool.query(`SELECT duration FROM flight_description WHERE drone_id=$1`,[dur.drone_id]);
+        const query3=await pool.query(`SELECT duration FROM flight_description WHERE drone_id=$1 AND emailid=$2`,[dur.drone_id,email]);
         // const durations=query3.rows.map(row=>row.duration);
         const durations = query3.rows.map(row => parseInt(row.duration, 10));
 
