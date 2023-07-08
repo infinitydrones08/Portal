@@ -20,6 +20,7 @@ app.use('/upload',require('./Router/index'))
 app.use('/admin',require('./Router/index'))
 app.use('/try',require('./Router/index'))
 app.use('/result',require('./Router/index'))
+app.use('/calculate_price',require('./Router/index'))
 
 const PORT=process.env.PORT||1200;
 app.listen(PORT,()=>{
