@@ -194,6 +194,16 @@ function checkToken(req,res,next){
         }
     })
 }
+router.post('/calculate_price', async (req, res) => {
+  try {
+    const totalPrice = await controller.costestimation(req, res);
+    console.log(totalPrice);
+    res.json({ totalPrice });
+  } catch (err) {
+    console.error('Error calculating price:', err);
+    res.status(500).json({ error: 'Error calculating price' });
+  }
+});
 router.get('/dashboard',checkToken,async(req,res)=>{
     
     // console.log("working");
@@ -214,18 +224,21 @@ router.get('/dashboard',checkToken,async(req,res)=>{
 
     try{
         console.log("Working");
-        const { totalDuration,results,crashDetails}=await controller.dashboard(req,res);
+        const { totalDuration,results,crashDetails,crashdetailsrows}=await controller.dashboard(req,res);
         console.log(crashDetails);
         console.log(totalDuration);
-        res.render('dashboard',{totalDuration,results,query4:crashDetails})
+        console.log("it will show crashdetails")
+        console.log(crashdetailsrows)
+        res.render('dashboard',{totalDuration,results,query4:crashDetails,crashdetails:crashdetailsrows})
     }
     catch(err)
     {
         console.log(err);
-        res.render('dashboard',{totalDuration:0,results:[],query4:[]});
+        res.render('dashboard',{totalDuration:0,results:[],query4:[],crashdetails:[]});
     }
     
 })
+
 
 
 
