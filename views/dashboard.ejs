@@ -40,7 +40,7 @@
           <p>No results found.</p>
         <% } %>
     </p>
-    <h2>Flight Details:</h2>
+    <h2> Successful Flight Details:</h2>
 <% if (query4.length > 0) { %>
   <table class="crashtable">
     <thead>
@@ -66,6 +66,58 @@
           <td><%= crash.duration %></td>
           <td><%= crash.emailid %></td>
           <td><%= crash.result %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } else { %>
+  <p>No crash details available.</p>
+<% } %>
+
+
+<h2>Crash Flight Details:</h2>
+<% if (crashdetails.length > 0) { %>
+  <table class="crashtable">
+    <thead>
+      <tr>
+        <th>Drone ID</th>
+        <th>Drone Name</th>
+        <th>Flight ID</th>
+        <th>Mode</th>
+        <th>Date</th>
+        <th>Damaged Parts</th>
+        <th>Duration</th>
+        <th>Email ID</th>
+        <th>Result</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% crashdetails.forEach((crash, index) => { %>
+        <tr>
+          <td><%= crash.drone_id %></td>
+          <td><%= crash.drone_name %></td>
+          <td><%= crash.flight_id %></td>
+          <td><%= crash.mode %></td>
+          <td><%= crash.date %></td>
+          <td>
+            <select multiple>
+              <% var damagedParts = crash.damaged_parts.split(","); %>
+              <% for (var i = 0; i < damagedParts.length; i++) { %>
+                <option><%= damagedParts[i].trim() %></option>
+              <% } %>
+            </select>
+          </td>
+          <td><%= crash.duration %></td>
+          <td><%= crash.emailid %></td>
+          <td><%= crash.result %></td>
+          <td>
+            <form action="/calculate_price" method="POST">
+              <input type="hidden" name="flightId" value="<%= crash.flight_id %>">
+              <input type="hidden" name="selectedDamagedParts" value="<%= crash.damaged_parts %>">
+              <button type="submit">Calculate Price</button>
+            </form>
+          </td>
         </tr>
       <% }); %>
     </tbody>
