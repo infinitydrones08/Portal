@@ -366,15 +366,57 @@ module.exports.dashboard=async(req,res)=>{
         }
         console.log(results)
         console.log(totalDuration);
-        const query4=await pool.query(`SELECT * FROM flight_description WHERE emailid=$1`,[email]);
+        const query4=await pool.query(`SELECT * FROM flight_description WHERE result=true AND emailid=$1`,[email]);
         console.log(query4)
         const crashDetails=query4.rows;
-        const droneId=crashDetails.drone_id;
+        const droneId=crashDetails[0].drone_id;
+        const crashdetails = await pool.query(`
+  SELECT
+    flight_description.drone_id,
+    drones.drone_name,
+    flight_description.flight_id,
+    flight_description.mode,
+    flight_description.date,
+    flight_description.duration,
+    flight_description.emailid,
+    flight_description.result,
+    crash.damaged_parts
+  FROM
+    flight_description
+  JOIN
+    crash ON flight_description.flight_id = crash.flight_id
+  JOIN
+    drones ON flight_description.drone_id = drones.drone_id
+  WHERE
+    flight_description.emailid = '${email}' AND
+    flight_description.result = false
+`);
+
+        console.log("me here")
+        console.log(crashdetails)
+        // const crashdetails1=await pool.query(`SELECT * FROM crash where emailid=$1`,[email]);
+        // var damagedParts="";
         console.log("H")
+        console.log("H")
+        console.log("h")
+        // crashdetails1.rows.forEach(row => {
+        //     damagedParts = row.damaged_parts;
+        //     console.log(damagedParts)
+        //     // Process each row's damaged_parts value
+        //   });
+        // console.log(damagedParts)
+        // const mergedCrashDetails = {
+        //     ...crashdetails,
+        //     rows: crashdetails.rows.map(row => ({ ...row })),
+        //     damagedParts: damagedParts
+        //   };
+        const crashdetailsrows=crashdetails.rows;
+        console.log(crashdetailsrows)
+        // console.log("H")
         console.log(query4.drone_id);
         console.log(droneId)
-        
-        return {totalDuration,results,crashDetails};
+        console.log("here controller",crashdetailsrows)
+        return {totalDuration,results,crashDetails,crashdetailsrows};
         // let query3;
         // for(let i=0;i<query2.rows.length;i++)
         // {
@@ -389,6 +431,32 @@ module.exports.dashboard=async(req,res)=>{
     catch(err)
     {
         console.log(err);
-        return {totalDuration:0,results:[],query4:[]}
+        return {totalDuration:0,results:[],query4:[],crashdetails:[]}
     }
 }
+
+    
+module.exports.costestimation = async (req, res) => {
+    return new Promise((resolve, reject) => {
+      const selectedDamagedParts = req.body.selectedDamagedParts.split(',');
+  
+      const placeholders = selectedDamagedParts.map((_, i) => `$${i + 1}`);
+      const query = `
+        SELECT SUM(items_cost) AS total_cost
+        FROM cost_details
+        WHERE LOWER(items_name) = ANY(ARRAY[${placeholders}])
+      `;
+  
+      pool.query(query, selectedDamagedParts.map(part => part.toLowerCase()), (err, result) => {
+        if (err) {
+          console.error('Error executing SQL Query:', err);
+          reject(err);
+          return;
+        }
+  
+        const totalPrice = result.rows[0].total_cost || 0;
+        resolve(totalPrice);
+      });
+    });
+  };
+// res.send(`Total cost is: ${totalPrice}`);
